@@ -118,9 +118,9 @@ CRF_Model::perform_BFGS()
   }
 
   for (int i = 0; i < dim; i++) { _vl[i] = x[i]; }
+  */
 
   return 0;
-  */
 }
 
 
@@ -476,7 +476,7 @@ CRF_Model::make_feature_bag(const int cutoff)
 {
 #ifdef USE_HASH_MAP
   //  typedef __gnu_cxx::hash_map<mefeature_type, int> map_type;
-  typedef std::tr1::unordered_map<mefeature_type, int> map_type;
+  typedef std::unordered_map<mefeature_type, int> map_type;
 #else
   typedef std::map<mefeature_type, int> map_type;
 #endif

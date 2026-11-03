@@ -2,7 +2,7 @@
  * $Id$
  */
 
-#include <sys/time.h>
+#include <time.h>
 #include <stdio.h>
 #include <fstream>
 #include <map>
@@ -14,7 +14,7 @@
 //#include <ext/hash_map>
 #include "crf.h"
 #include "common.h"
-
+#include "utf8func.h"
 using namespace std;
 
 multimap<string, string> WNdic;
@@ -28,10 +28,15 @@ extern int push_stop_watch();
 static string
 normalize(const string & s)
 {
-  string tmp(s);
+  size_t length;
+  const char* lows = changeCase(s.c_str(), true, length);
+  string tmp(lows);
   for (size_t i = 0; i < tmp.size(); i++) {
-    tmp[i] = tolower(tmp[i]);
-    if (isdigit(tmp[i])) tmp[i] = '#';
+      if(0 < tmp[i] && tmp[i] < 128)
+          {
+          //tmp[i] = tolower(tmp[i]);
+          if(isdigit(tmp[i])) tmp[i] = '#';
+          }
   }
   //if (tmp[tmp.size()-1] == 's') tmp = tmp.substr(0, tmp.size()-1);
   return tmp;
@@ -155,16 +160,25 @@ crfstate(const vector<Token> &vt, int i)
   }
   
   for (size_t j = 0; j < str.size(); j++) {
-    if (isdigit(str[j])) {
-      sample.add_feature("CTN_NUM");
-      break;
-    }
+      if(0 < str[j] && str[j] < 128)
+          {
+          if(isdigit(str[j]))
+              {
+              sample.add_feature("CTN_NUM");
+              break;
+              }
+          }
   }
   for (size_t j = 0; j < str.size(); j++) {
-    if (isupper(str[j])) {
-      sample.add_feature("CTN_UPP");
-      break;
-    }
+      //if(0 < str[j] && str[j] < 128)
+          {
+          if(isUpperUTF8(str.c_str() + j))
+         // if(isupper(str[j]))
+              {
+              sample.add_feature("CTN_UPP");
+              break;
+              }
+          }
   }
   for (size_t j = 0; j < str.size(); j++) {
     if (str[j] == '-') {
@@ -174,7 +188,9 @@ crfstate(const vector<Token> &vt, int i)
   }
   bool allupper = true;
   for (size_t j = 0; j < str.size(); j++) {
-    if (!isupper(str[j])) {
+      if(isUpperUTF8(str.c_str() + j))
+
+    /*if(!isupper(str[j]))*/ {
       allupper = false;
       break;
     }

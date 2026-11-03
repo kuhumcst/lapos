@@ -19,7 +19,7 @@
 #define USE_HASH_MAP  // if you encounter errors with hash, try commenting out this line. (the program will be a bit slower, though)
 #ifdef USE_HASH_MAP
 //#include <ext/hash_map>
-#include <tr1/unordered_map>
+#include <unordered_map>
 #endif
 
 
@@ -81,7 +81,7 @@ class CRF_Model
   //  bool load_from_array(const CRF_Model_Data data[]);
 
   // enum { MAX_LABEL_TYPES = 50 };
-  const static int MAX_LABEL_TYPES = 2000;
+  const static int MAX_LABEL_TYPES = 1000;
   enum { MAX_LEN = 1000 };
 
   void incr_line_counter() { _line_counter++; }
@@ -137,7 +137,7 @@ private:
   {
 #ifdef USE_HASH_MAP
     //    typedef __gnu_cxx::hash_map<mefeature_type, int> map_type;
-    typedef std::tr1::unordered_map<mefeature_type, int> map_type;
+    typedef std::unordered_map<mefeature_type, int> map_type;
 #else
     typedef std::map<mefeature_type, int> map_type;
 #endif
@@ -197,7 +197,7 @@ private:
   {
 #ifdef USE_HASH_MAP
     //    typedef __gnu_cxx::hash_map<std::string, int, hashfun_str> map_type;
-    typedef std::tr1::unordered_map<std::string, int, hashfun_str> map_type;
+    typedef std::unordered_map<std::string, int, hashfun_str> map_type;
 #else
     typedef std::map<std::string, int> map_type;
 #endif

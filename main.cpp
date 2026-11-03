@@ -14,7 +14,7 @@
 //#include "maxent.h"
 #include "crf.h"
 #include "common.h"
-#include <sys/time.h>
+#include <time.h>
 
 using namespace std;
 

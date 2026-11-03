@@ -2,8 +2,8 @@ CFLAGS = -O2 -DNDEBUG
 #CFLAGS = -pg -O5
 #CFLAGS = -g -Wall -W
 CPP = g++
-LOBJS = learn.cpp crf.o crfpos.o lookahead.o
-MOBJS = main.cpp lookahead.o tokenize.o crf.o crfpos.o
+LOBJS = learn.cpp crf.o crfpos.o lookahead.o unicaseconv.o utf8func.o
+MOBJS = main.cpp lookahead.o tokenize.o crf.o crfpos.o unicaseconv.o utf8func.o
 
 all: lapos-learn lapos lapos-eval
 
